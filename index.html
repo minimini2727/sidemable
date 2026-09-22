@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>퍼포먼스 마케팅 실행 프로세스</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0B0C;
+    --bg-2:#141414;
+    --card:#18181A;
+    --card-border:#2A2A2B;
+    --lime:#CFFF4D;
+    --lime-dim:#8FB233;
+    --ink:#F3F3EE;
+    --ink-dim:#9A9A94;
+    --ink-faint:#6B6B66;
+    --off-red:#E0574B;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  *,*::before,*::after{box-sizing:inherit;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Gothic A1',-apple-system,'Pretendard','Apple SD Gothic Neo',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:900px;margin:0 auto;padding:72px 28px 120px;}
+  @media (max-width:640px){ .wrap{padding:48px 18px 90px;} }
+
+  /* ---------- header ---------- */
+  .masthead{margin-bottom:88px;}
+  .masthead .kicker{
+    font-size:13px;font-weight:500;color:var(--lime);
+    letter-spacing:.02em;margin-bottom:18px;
+  }
+  .masthead h1{
+    font-size:clamp(30px,5vw,46px);
+    font-weight:700;line-height:1.22;margin:0 0 20px;
+    letter-spacing:-.01em;
+  }
+  .masthead p{
+    font-size:16px;color:var(--ink-dim);max-width:520px;margin:0;font-weight:300;
+  }
+
+  /* ---------- section shell ---------- */
+  .chapter{margin-bottom:104px;}
+  .chapter-head{margin-bottom:36px;}
+  .chapter-num{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:30px;height:30px;border:1px solid var(--card-border);border-radius:50%;
+    font-size:13px;color:var(--lime);margin-bottom:16px;font-weight:500;
+  }
+  .chapter-head h2{font-size:26px;font-weight:700;margin:0 0 10px;letter-spacing:-.01em;}
+  .chapter-head p{font-size:14.5px;color:var(--ink-dim);margin:0;max-width:560px;font-weight:300;}
+
+  /* ---------- funnel ---------- */
+  .funnel{display:flex;flex-direction:column;align-items:stretch;}
+  .node{
+    background:var(--card);
+    border:1px solid var(--card-border);
+    border-radius:14px;
+    padding:20px 24px;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    flex-wrap:wrap;
+  }
+  .node.manual{border-color:rgba(207,255,77,.35);}
+  .node-left{display:flex;flex-direction:column;gap:4px;min-width:120px;}
+  .node-label{font-size:13.5px;color:var(--ink-dim);font-weight:500;display:flex;align-items:center;gap:6px;}
+  .star{color:var(--lime);font-weight:700;}
+  .node-tag{font-size:11.5px;color:var(--ink-faint);font-weight:300;}
+  .node-value{
+    display:flex;align-items:baseline;gap:6px;
+    font-size:24px;font-weight:300;letter-spacing:-.01em;
+  }
+  .node-value .unit{font-size:14px;color:var(--ink-faint);font-weight:400;}
+  .node.calc .node-value{color:var(--ink);}
+  .node.manual .node-value{color:var(--lime);}
+  .node input{
+    background:transparent;border:none;outline:none;
+    color:inherit;font:inherit;width:150px;text-align:right;
+    border-bottom:1px solid var(--card-border);padding-bottom:2px;
+  }
+  .node.manual input{border-bottom-color:var(--lime-dim);}
+  .node input:focus{border-bottom-color:var(--lime);}
+  .node.result{
+    border-color:var(--lime);
+    background:linear-gradient(180deg,rgba(207,255,77,.08),rgba(207,255,77,0));
+  }
+  .node.result .node-value{color:var(--lime);font-weight:500;font-size:28px;}
+
+  .connector{
+    display:flex;align-items:center;gap:10px;padding:10px 0 10px 24px;
+    color:var(--ink-faint);font-size:12.5px;font-weight:300;
+  }
+  .connector .line{width:1px;height:22px;background:var(--card-border);}
+  .connector .op{
+    background:var(--bg-2);border:1px solid var(--card-border);
+    border-radius:20px;padding:3px 11px;font-size:11.5px;color:var(--ink-dim);
+  }
+
+  /* ---------- media mix ---------- */
+  .mediamix{margin-top:40px;}
+  .mediamix .note{font-size:13.5px;color:var(--ink-dim);font-weight:300;margin-bottom:18px;}
+  .mm-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+  @media (max-width:720px){ .mm-grid{grid-template-columns:repeat(2,1fr);} }
+  .mm-card{background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:16px;}
+  .mm-card .ch{font-size:14px;font-weight:700;margin-bottom:8px;}
+  .mm-card .role{font-size:12px;color:var(--ink-dim);font-weight:300;line-height:1.45;}
+
+  /* ---------- VP formula ---------- */
+  .vp-formula{
+    display:flex;align-items:center;flex-wrap:wrap;gap:14px;
+    background:var(--card);border:1px solid var(--card-border);
+    border-radius:14px;padding:22px 24px;margin-bottom:32px;
+  }
+  .vp-chip{display:flex;flex-direction:column;gap:4px;}
+  .vp-chip .k{font-size:10.5px;color:var(--ink-faint);font-weight:500;}
+  .vp-chip .v{font-size:15px;font-weight:500;}
+  .vp-formula .plus,.vp-formula .eq{color:var(--ink-faint);font-size:16px;font-weight:300;}
+  .vp-chip.result .v{color:var(--lime);}
+
+  table.vp-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  table.vp-table thead th{
+    background:var(--lime);color:#0B0B0C;text-align:left;
+    padding:11px 14px;font-weight:700;font-size:12.5px;
+  }
+  table.vp-table thead th:first-child{border-radius:10px 0 0 0;}
+  table.vp-table thead th:last-child{border-radius:0 10px 0 0;}
+  table.vp-table tbody td{
+    padding:13px 14px;border-bottom:1px solid var(--card-border);
+    font-weight:300;color:var(--ink-dim);vertical-align:top;
+  }
+  table.vp-table tbody td:last-child{color:var(--lime);font-weight:500;}
+  table.vp-table tbody tr:last-child td{border-bottom:none;}
+
+  /* ---------- stepper ---------- */
+  .stepper{display:flex;flex-direction:column;margin-top:40px;}
+  .step{display:flex;gap:18px;padding:16px 0;}
+  .step .dot-col{display:flex;flex-direction:column;align-items:center;}
+  .step .dot{
+    width:26px;height:26px;border-radius:50%;border:1px solid var(--card-border);
+    display:flex;align-items:center;justify-content:center;font-size:11.5px;color:var(--ink-dim);
+    flex-shrink:0;background:var(--bg);
+  }
+  .step .stick{flex:1;width:1px;background:var(--card-border);margin-top:4px;}
+  .step .body{padding-bottom:6px;}
+  .step .body h3{font-size:15px;font-weight:500;margin:2px 0 4px;}
+  .step .body p{font-size:13px;color:var(--ink-dim);font-weight:300;margin:0;}
+
+  .branch{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px;}
+  @media (max-width:560px){ .branch{grid-template-columns:1fr;} }
+  .branch-card{border-radius:12px;padding:16px 18px;border:1px solid var(--card-border);background:var(--card);}
+  .branch-card.off{border-color:rgba(224,87,75,.4);}
+  .branch-card.on{border-color:var(--lime);background:linear-gradient(180deg,rgba(207,255,77,.08),rgba(207,255,77,0));}
+  .branch-card .cond{font-size:12px;color:var(--ink-faint);font-weight:300;margin-bottom:6px;}
+  .branch-card.off .cond{color:var(--off-red);}
+  .branch-card.on .cond{color:var(--lime);}
+  .branch-card .result{font-size:15px;font-weight:700;}
+
+  .footnote{margin-top:64px;font-size:11.5px;color:var(--ink-faint);font-weight:300;border-top:1px solid var(--card-border);padding-top:18px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">퍼포먼스 마케팅 온보딩</div>
+    <h1>예산은 숫자로 설계하고,<br>소재는 성과로 증명한다</h1>
+    <p>퍼포먼스 마케팅 실행은 크게 두 단계로 나뉜다. 유닛 이코노믹스로 KPI를 역산하는 단계, 그리고 그 KPI를 기준으로 크리에이티브를 검증하는 단계다. 아래 값을 직접 바꿔가며 구조를 익힌다.</p>
+  </header>
+
+  <!-- ===================== CHAPTER 1 ===================== -->
+  <section class="chapter">
+    <div class="chapter-head">
+      <div class="chapter-num">1</div>
+      <h2>KPI 설계</h2>
+      <p>유닛 이코노믹스는 예산에서 매출까지의 흐름을 하나의 식으로 연결한 것이다. CPC·CVR·AOV 세 값(＊)은 시장 데이터나 목표치로 직접 입력하고, 나머지는 자동으로 계산된다.</p>
+    </div>
+
+    <div class="funnel">
+
+      <div class="node">
+        <div class="node-left">
+          <div class="node-label">예산</div>
+          <div class="node-tag">기준값</div>
+        </div>
+        <div class="node-value"><span class="unit">₩</span><input id="budget" value="10,000,000"></div>
+      </div>
+
+      <div class="connector"><div class="line"></div><span class="op">÷ CPC</span></div>
+
+      <div class="node manual">
+        <div class="node-left">
+          <div class="node-label">CPC<span class="star">＊</span></div>
+          <div class="node-tag">수동 설정</div>
+        </div>
+        <div class="node-value"><span class="unit">₩</span><input id="cpc" value="500"></div>
+      </div>
+
+      <div class="connector"><div class="line"></div><span class="op">= 클릭수</span></div>
+
+      <div class="node calc">
+        <div class="node-left">
+          <div class="node-label">클릭</div>
+          <div class="node-tag">자동 계산 · 예산 ÷ CPC</div>
+        </div>
+        <div class="node-value"><span id="clicks">20,000</span><span class="unit">회</span></div>
+      </div>
+
+      <div class="connector"><div class="line"></div><span class="op">× CVR</span></div>
+
+      <div class="node manual">
+        <div class="node-left">
+          <div class="node-label">CVR<span class="star">＊</span></div>
+          <div class="node-tag">수동 설정</div>
+        </div>
+        <div class="node-value"><input id="cvr" value="2.5"><span class="unit">%</span></div>
+      </div>
+
+      <div class="connector"><div class="line"></div><span class="op">= 전환 수</span></div>
+
+      <div class="node calc">
+        <div class="node-left">
+          <div class="node-label">전환 수</div>
+          <div class="node-tag">자동 계산 · 클릭 × CVR</div>
+        </div>
+        <div class="node-value"><span id="conversions">500</span><span class="unit">건</span></div>
+      </div>
+
+      <div class="connector"><div class="line"></div><span class="op">× AOV</span></div>
+
+      <div class="node manual">
+        <div class="node-left">
+          <div class="node-label">AOV<span class="star">＊</span></div>
+          <div class="node-tag">수동 설정 · 객단가</div>
+        </div>
+        <div class="node-value"><span class="unit">₩</span><input id="aov" value="45,000"></div>
+      </div>
+
+      <div class="connector"><div class="line"></div><span class="op">= 전환매출액</span></div>
+
+      <div class="node calc">
+        <div class="node-left">
+          <div class="node-label">전환매출액</div>
+          <div class="node-tag">자동 계산 · 전환 수 × AOV</div>
+        </div>
+        <div class="node-value"><span class="unit">₩</span><span id="revenue">22,500,000</span></div>
+      </div>
+
+      <div class="connector"><div class="line"></div><span class="op">÷ 예산</span></div>
+
+      <div class="node result">
+        <div class="node-left">
+          <div class="node-label">ROAS</div>
+          <div class="node-tag">자동 계산 · 전환매출액 ÷ 예산</div>
+        </div>
+        <div class="node-value"><span id="roas">225.0%</span></div>
+      </div>
+
+    </div>
+
+    <div class="mediamix">
+      <p class="note">이 유닛 이코노믹스 값(목표 CPC·CVR)을 기준으로 채널별 예산과 역할을 배분해 미디어믹스를 설계한다.</p>
+      <div class="mm-grid">
+        <div class="mm-card"><div class="ch">META</div><div class="role">신규 고객 획득, 프로스펙팅 중심 확장</div></div>
+        <div class="mm-card"><div class="ch">Google</div><div class="role">서치·PMax로 구매의도 포착</div></div>
+        <div class="mm-card"><div class="ch">Naver</div><div class="role">브랜드 검색 방어 + 쇼핑 전환</div></div>
+        <div class="mm-card"><div class="ch">Criteo</div><div class="role">장바구니·조회 이탈 리타겟팅</div></div>
+        <div class="mm-card"><div class="ch">당근마켓</div><div class="role">지역 기반 저비용 트래픽 확보</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CHAPTER 2 ===================== -->
+  <section class="chapter">
+    <div class="chapter-head">
+      <div class="chapter-num">2</div>
+      <h2>광고 크리에이티브</h2>
+      <p>소비자 Pain Point와 브랜드 USP를 결합해 VP(Value Proposition)를 도출한다. VP가 카피와 오브젝트의 원재료가 된다.</p>
+    </div>
+
+    <div class="vp-formula">
+      <div class="vp-chip"><span class="k">PAIN POINT</span><span class="v">늦은 배송에 대한 불만</span></div>
+      <span class="plus">+</span>
+      <div class="vp-chip"><span class="k">USP</span><span class="v">빠른 배송</span></div>
+      <span class="eq">=</span>
+      <div class="vp-chip result"><span class="k">VP</span><span class="v">슈팅 배송</span></div>
+    </div>
+
+    <table class="vp-table">
+      <thead>
+        <tr><th style="width:34%">Pain Point</th><th style="width:33%">USP</th><th>VP</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>가격 비교하다 지쳐서 이탈</td><td>업계 최저가 보장제</td><td>더 싸면 차액 환불</td></tr>
+        <tr><td>옵션이 너무 많아 선택을 못 함</td><td>AI 맞춤 추천 큐레이션</td><td>3초 만에 내 취향 저격</td></tr>
+        <tr><td>반품·교환 절차가 번거로움</td><td>무료 회수 반품 시스템</td><td>택배기사가 대신 반품</td></tr>
+        <tr><td>제품 품질에 대한 불신</td><td>100% 정품 인증 시스템</td><td>가짜면 200% 보상</td></tr>
+        <tr><td>구매 결정에 확신이 없음</td><td>7일 무료 체험 후 결제</td><td>안 써보고 사지 마세요</td></tr>
+      </tbody>
+    </table>
+
+    <div class="stepper">
+      <div class="step">
+        <div class="dot-col"><div class="dot">1</div><div class="stick"></div></div>
+        <div class="body"><h3>VP 리스트 확정</h3><p>Pain Point × USP 조합으로 도출한 VP 중 우선순위를 정한다.</p></div>
+      </div>
+      <div class="step">
+        <div class="dot-col"><div class="dot">2</div><div class="stick"></div></div>
+        <div class="body"><h3>카피·오브젝트 제작</h3><p>VP를 헤드라인·썸네일·영상 오브젝트로 확장해 소재를 만든다.</p></div>
+      </div>
+      <div class="step">
+        <div class="dot-col"><div class="dot">3</div><div class="stick"></div></div>
+        <div class="body"><h3>소재 라이브 &amp; 리드타임 확보</h3><p>3~7일 성과가 쌓이길 기다리며 중간 판단을 보류한다.</p></div>
+      </div>
+      <div class="step">
+        <div class="dot-col"><div class="dot">4</div></div>
+        <div class="body"><h3>1번 KPI 대비 성과 판정</h3><p>같은 기간 CPC·CVR·ROAS를 1번 챕터에서 설계한 목표치와 비교한다.</p></div>
+      </div>
+    </div>
+
+    <div class="branch">
+      <div class="branch-card off">
+        <div class="cond">성과 &lt; 설계 KPI</div>
+        <div class="result">소재 OFF</div>
+      </div>
+      <div class="branch-card on">
+        <div class="cond">성과 ≥ 설계 KPI</div>
+        <div class="result">유지 &amp; 예산 스케일</div>
+      </div>
+    </div>
+  </section>
+
+  <p class="footnote">본 자료의 각 채널 구조(META/Google/Naver/Criteo/당근마켓 등)와 프로세스는 실무 기준 예시이며, 1번 챕터의 수치는 입력값에 따라 즉시 재계산됩니다.</p>
+
+</div>
+
+<script>
+  function toNum(v){ return Number(String(v).replace(/[^0-9.\-]/g,'')) || 0; }
+  function fmt(n){ return Math.round(n).toLocaleString('ko-KR'); }
+  function fmtPct(n){ return (Math.round(n*10)/10).toLocaleString('ko-KR', {minimumFractionDigits:1, maximumFractionDigits:1}) + '%'; }
+
+  var ids = ['budget','cpc','cvr','aov'];
+
+  function recalc(){
+    var budget = toNum(document.getElementById('budget').value);
+    var cpc = toNum(document.getElementById('cpc').value);
+    var cvr = toNum(document.getElementById('cvr').value);
+    var aov = toNum(document.getElementById('aov').value);
+
+    var clicks = cpc > 0 ? budget / cpc : 0;
+    var conversions = clicks * (cvr / 100);
+    var revenue = conversions * aov;
+    var roas = budget > 0 ? (revenue / budget * 100) : 0;
+
+    document.getElementById('clicks').textContent = fmt(clicks);
+    document.getElementById('conversions').textContent = fmt(conversions);
+    document.getElementById('revenue').textContent = fmt(revenue);
+    document.getElementById('roas').textContent = fmtPct(roas);
+  }
+
+  ids.forEach(function(id){
+    var el = document.getElementById(id);
+    var isPercent = (id === 'cvr');
+    el.addEventListener('focus', function(){ el.value = toNum(el.value); });
+    el.addEventListener('input', recalc);
+    el.addEventListener('blur', function(){
+      var n = toNum(el.value);
+      el.value = isPercent ? n.toLocaleString('ko-KR', {maximumFractionDigits:2}) : fmt(n);
+      recalc();
+    });
+  });
+
+  recalc();
+</script>
+</body>
+</html>
